@@ -1,0 +1,23 @@
+# Arquivos de credenciais e tokens do Google - NUNCA ENVIE ISSO!
+token.json
+credentials.json
+
+# Pasta de cache do Python
+__pycache__/
+
+# Arquivos compilados do Python
+*.pyc
+
+# Pasta onde as imagens baixadas são salvas
+# (Use o nome da pasta que está dentro do seu projeto, se for o caso)
+imagens_cameras_mapa/
+
+# Arquivos de ambiente virtual (se você usar)
+venv/
+.venv/
+env/
+.env
+
+# Arquivos de configuração de editores de código (opcional, mas recomendado)
+.vscode/
+.idea/
