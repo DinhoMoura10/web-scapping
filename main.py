@@ -2,8 +2,9 @@
 """
 Arquivo principal que orquestra o fluxo do programa:
 1. Inicia o scraper de imagens.
-2. Para cada imagem capturada, aciona o upload para o Google Drive.
-3. Repete o processo em um ciclo infinito com um tempo de espera.
+2. Para cada imagem capturada, aciona o sistema de detecção de enchentes.
+3. Aciona o upload para o Google Drive.
+4. Repete o processo em um ciclo infinito com um tempo de espera.
 """
 import time
 import os
@@ -11,6 +12,7 @@ import os
 # Importa as funções e configurações dos outros módulos
 from web_scraper import capturar_imagens_marcadores
 from drive_api import autenticar_e_obter_servico, upload_para_drive
+from flood_detector import classificar_imagem # <--- IMPORTAÇÃO ADICIONADA
 import config
 
 def main():
@@ -32,6 +34,17 @@ def main():
         # A cada imagem salva localmente, o loop executa uma iteração.
         for caminho_do_arquivo in capturar_imagens_marcadores():
             
+            # --- NOVA ETAPA: DETECÇÃO DE ENCHENTE ---
+            print(f"\nAnalisando a imagem '{caminho_do_arquivo}' para detecção de enchentes...")
+            is_flood = classificar_imagem(caminho_do_arquivo)
+            
+            # Ação com base na detecção (aqui você pode adicionar alertas, etc.)
+            if is_flood:
+                print(f"ALERTA DE ENCHENTE! A imagem '{caminho_do_arquivo}' foi classificada como contendo uma enchente.")
+                # Futuramente: enviar um email, notificação, etc.
+            
+            # --- FIM DA NOVA ETAPA ---
+
             print("\nIniciando upload para o Google Drive...")
             sucesso = upload_para_drive(servico_drive, caminho_do_arquivo)
             
